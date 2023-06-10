@@ -1,4 +1,3 @@
-import logging
 import shutil
 import os
 
@@ -11,25 +10,25 @@ class _ProjectManager:
         options = "[1] Clear all migrations folders in this working directory\n" \
             "[2] Provide a path to clear migrations folders\n" \
 
-        logging.warning(
+        print(
             "----- Make sure you have a backup for your folders -----")
-
         choice = input("Options:\n" + options + "Enter your choice: ").strip()
         if choice.lower() == "1":
             cwd = os.getcwd()
-            logging.info(f"[*] {cwd}")
+            print(f"[*] {cwd}")
             return cwd
         elif choice.lower() == "2":
             folder_path = input("Provide the folder path: ").strip()
             if os.path.isdir(folder_path):
                 if not self.is_dir_empty(folder_path):
-                    logging.info(f"[*] {folder_path}")
+                    print(f"[*] {folder_path}")
                     return folder_path
                 else:
-                    logging.warning("The folder is empty.")
+                    print("The folder is empty.")
             else:
-                logging.warning("The path is not a folder.")
+                print("The path is not a folder.")
         else:
+            print("Exit.....")
             os._exit(0)
 
     def confirm_deletions(self):
@@ -67,10 +66,10 @@ class _ProjectManager:
                 if entry.name == "migrations" and entry.is_dir() and not self.is_dir_empty(entry.path):
                     self.success = True
                     parent_dir = os.path.basename(os.path.dirname(entry.path))
-                    logging.info(f"[*] {parent_dir} App:")
+                    print(f"[*] {parent_dir} App:")
                     for subentry in os.scandir(entry.path):
                         self.delete_entry(subentry)
-                    logging.info("")
+                    print("")
                 elif entry.is_dir():
                     self.rest_migrations(entry.path)
 
@@ -93,20 +92,20 @@ class _ProjectManager:
                         else:
                             self.delete_entry(subentry, sub_tap)
                     if has_init:
-                        logging.info(
+                        print(
                             f"\n\t{sub_tap}[+] Can't be Deleted __init__.py --- {entry.path}\n")
                     else:
                         shutil.rmtree(entry.path)
-                        logging.info(
+                        print(
                             f"\t{sub_tap}Deleted Directory {entry.path}")
                 else:
                     os.rmdir(entry.path)
-                    logging.info(f"\t{sub_tap}Deleted Directory {entry.path}")
+                    print(f"\t{sub_tap}Deleted Directory {entry.path}")
             elif entry.is_file() and entry.name != "__init__.py":
                 os.remove(entry.path)
-                logging.info(f"\t{sub_tap}Deleted File --- {entry.path}")
+                print(f"\t{sub_tap}Deleted File --- {entry.path}")
             else:
-                logging.info(
+                print(
                     f"\n\t{sub_tap}[+] Can't be Deleted __init__.py --- {entry.path}\n")
         except Exception as e:
             raise e

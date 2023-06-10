@@ -1,5 +1,4 @@
 from rest_migrations.rm import _ProjectManager
-import logging
 
 
 class ProjectRunner:
@@ -20,8 +19,6 @@ class ProjectRunner:
 
     @staticmethod
     def run():
-        logging.basicConfig(level=logging.INFO,
-                            format='%(levelname)s:rest_migrations:%(message)s')
         pm = _ProjectManager()
         runner = ProjectRunner(pm)
         runner._get_project_path()
@@ -31,7 +28,7 @@ class ProjectRunner:
                 "You can now recreate your migrations by running:\n" \
                 "\tpython manage.py makemigrations\n" \
                 "\tpython manage.py migrate"
-            logging.info(success_msg)
+            print(success_msg)
         else:
-            logging.warning(
+            print(
                 f"The directory {runner.cwd} does not contain any folder named 'migrations'.")
