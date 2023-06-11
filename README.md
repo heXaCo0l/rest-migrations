@@ -1,4 +1,5 @@
-Rest Migrations
+# Rest Migrations
+
 Rest Migrations is a Python package designed to refresh Django migrations folders. It simplifies the process of cleaning up migrations folders by removing all files except the `__init__.py` file.
 
 ## Installation
